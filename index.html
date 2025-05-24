@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Care Assistant - Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .help-button-container {
+            margin-bottom: 20px;
+        }
+
+        .help-button {
+            background: linear-gradient(135deg, #fff9c4 0%, #ffeaa7 100%);
+            border: 3px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .help-button:hover {
+            background: linear-gradient(135deg, #fff59d 0%, #ffcc02 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .help-icon {
+            font-size: 2rem;
+        }
+
+        .help-text {
+            font-size: 1.4rem;
+        }
+
+        .greeting {
+            font-size: 1.8rem;
+            color: #000000;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .weather-location-widget {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e0e0e0;
+        }
+
+        .location-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .location-icon {
+            font-size: 2rem;
+        }
+
+        .location-text {
+            font-size: 1.6rem;
+            color: #000000;
+            font-weight: 600;
+        }
+
+        .time-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            text-align: center;
+        }
+
+        .widget-time {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .current-date {
+            font-size: 1.6rem;
+            color: #000000;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .ampm-icon {
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            justify-content: flex-end;
+        }
+
+        .weather-icon {
+            font-size: 4rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-details {
+            text-align: right;
+        }
+
+        .temperature {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 5px;
+        }
+
+        .weather-description {
+            font-size: 1.4rem;
+            color: #000000;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            color: #000000;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .medication-reminder {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            color: #000000;
+            border: 2px solid #90caf9;
+        }
+
+        .medication-reminder h3 {
+            color: #000000;
+        }
+
+        .next-med {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .med-time {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+
+        .med-list {
+            list-style: none;
+        }
+
+        .med-list li {
+            padding: 15px 0;
+            font-size: 1.3rem;
+            color: #000000;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .med-checkbox {
+            width: 60px;
+            height: 40px;
+            border: 3px solid #000000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            font-size: 1.4rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .med-checkbox:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .med-checkbox.taken {
+            background: #4caf50;
+            color: #ffffff;
+            border-color: #4caf50;
+        }
+
+        .med-checkbox.taken:hover {
+            background: #45a049;
+        }
+
+        .items-tracker {
+            background: linear-gradient(135deg, #e8f5e8 0%, #fff3e0 100%);
+            border: 2px solid #a5d6a7;
+        }
+
+        .item-list {
+            list-style: none;
+        }
+
+        .item-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #000000;
+        }
+
+        .item-location {
+            color: #000000;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .edit-location {
+            background: #ffffff;
+            border: 2px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-location:hover {
+            background: #f0f0f0;
+        }
+
+        .voice-controls {
+            grid-column: 1 / -1;
+            text-align: center;
+            background: linear-gradient(135deg, #e1f5fe 0%, #f3e5f5 100%);
+            color: #000000;
+            border: 2px solid #81d4fa;
+        }
+
+        .voice-controls h3 {
+            color: #000000;
+        }
+
+        .voice-button {
+            background: #ffffff;
+            border: 4px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 35px;
+            border-radius: 50%;
+            width: 220px;
+            height: 220px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .voice-button:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .voice-button.listening {
+            background: #ffcdd2;
+            border-color: #f44336;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .voice-icon {
+            font-size: 4.5rem;
+            line-height: 1;
+        }
+
+        .voice-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .response-area {
+            margin-top: 20px;
+            padding: 20px;
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            min-height: 80px;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #000000;
+            line-height: 1.4;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quick-action {
+            background: #ffffff;
+            border: 2px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .quick-action:hover {
+            background: #f0f0f0;
+        }
+
+        .emergency-info {
+            background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+            color: #000000;
+            text-align: center;
+            border: 2px solid #ef9a9a;
+            grid-column: 1 / -1;
+        }
+
+        .emergency-info h3 {
+            color: #000000;
+        }
+
+        .emergency-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+            margin: 10px 0;
+        }
+
+        .contact-item {
+            margin: 10px 0;
+            padding: 15px;
+            background: #ffffff;
+            border: 1px solid #000000;
+            border-radius: 8px;
+            color: #000000;
+            font-weight: 500;
+            font-size: 1.2rem;
+        }
+
+        .water-tracker {
+            background: linear-gradient(135deg, #e0f7fa 0%, #e8f5e8 100%);
+            border: 2px solid #4dd0e1;
+        }
+
+        .water-goal {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .water-progress-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .water-bottle {
+            width: 80px;
+            height: 120px;
+            background: #ffffff;
+            border: 3px solid #000000;
+            border-radius: 15px 15px 5px 5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .water-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, #2196f3, #81d4fa);
+            transition: height 0.5s ease;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .water-amount {
+            position: relative;
+            z-index: 2;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #000000;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .water-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .water-btn {
+            background: #ffffff;
+            border: 3px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .water-btn:hover {
+            background: #f0f8ff;
+            transform: translateY(-2px);
+        }
+
+        .water-btn.small {
+            font-size: 1.1rem;
+            padding: 10px 16px;
+        }
+
+        .water-btn-icon {
+            font-size: 1.5rem;
+        }
+
+        .water-status {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .undo-water {
+            background: #ffcdd2;
+            border: 2px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .undo-water:hover {
+            background: #ef9a9a;
+        }
+
+        .help-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .help-overlay.show {
+            display: flex;
+        }
+
+        .help-content {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid #000000;
+        }
+
+        .help-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 20px;
+        }
+
+        .help-header h2 {
+            font-size: 2.2rem;
+            color: #000000;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-help {
+            background: #ffcdd2;
+            border: 2px solid #000000;
+            color: #000000;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-help:hover {
+            background: #ef9a9a;
+            transform: scale(1.1);
+        }
+
+        .help-instructions {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .help-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            border: 2px solid #000000;
+            border-radius: 15px;
+            background: #f8f9fa;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            flex-shrink: 0;
+            width: 60px;
+            text-align: center;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h3 {
+            font-size: 1.6rem;
+            color: #000000;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .step-content p {
+            font-size: 1.3rem;
+            color: #000000;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .example-questions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .example {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .help-footer {
+            margin-top: 30px;
+            text-align: center;
+            border-top: 2px solid #000000;
+            padding-top: 20px;
+        }
+
+        .got-it-button {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+            border: 3px solid #000000;
+            color: #000000;
+            font-weight: 600;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 0 auto;
+        }
+
+        .got-it-button:hover {
+            background: linear-gradient(135deg, #a5d6a7 0%, #81c784 100%);
+            transform: translateY(-2px);
+        }
+
+        .got-it-icon {
+            font-size: 1.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .help-content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .help-step {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-icon {
+                align-self: center;
+            }
+        }
+
+        .add-location-form {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .add-location-form.active {
+            display: block;
+        }
+
+        .add-location-form input, .add-location-form select {
+            padding: 8px;
+            margin: 5px;
+            border: 2px solid #000000;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .add-location-form button {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+
+            .weather-location-widget {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .location-info, .weather-info {
+                justify-content: center;
+                flex: none;
+            }
+
+            .time-display {
+                order: -1;
+            }
+
+            .weather-details {
+                text-align: center;
+            }
+
+            .voice-controls, .emergency-info {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="help-overlay" id="helpOverlay">
+            <div class="help-content">
+                <div class="help-header">
+                    <h2>📱 How to Use Your Care Assistant</h2>
+                    <button class="close-help" onclick="hideHelp()">✖️</button>
+                </div>
+                
+                <div class="help-instructions">
+                    <div class="help-step">
+                        <div class="step-icon">🕐</div>
+                        <div class="step-content">
+                            <h3>Check Time & Weather</h3>
+                            <p>Look at the top white box to see the current time, date, your location, and today's weather.</p>
+                        </div>
+                    </div>
+
+                    <div class="help-step">
+                        <div class="step-icon">💊</div>
+                        <div class="step-content">
+                            <h3>Track Your Medications</h3>
+                            <p>In the blue box, tap the large white buttons next to each medication when you take them. They will turn green ✅</p>
+                        </div>
+                    </div>
+
+                    <div class="help-step">
+                        <div class="step-icon">🔍</div>
+                        <div class="step-content">
+                            <h3>Find Your Items</h3>
+                            <p>The green box shows where you put your glasses, keys, and other items. You can add new items too!</p>
+                        </div>
+                    </div>
+
+                    <div class="help-step">
+                        <div class="step-icon">🎤</div>
+                        <div class="step-content">
+                            <h3>Talk to Your Assistant</h3>
+                            <p>In the purple box, tap "Start Listening" and ask questions like:</p>
+                            <div class="example-questions">
+                                <div class="example">💬 "What time is it?"</div>
+                                <div class="example">💬 "Where are my glasses?"</div>
+                                <div class="example">💬 "What's the weather?"</div>
+                                <div class="example">💬 "Did I take my medication?"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="help-step">
+                        <div class="step-icon">🚨</div>
+                        <div class="step-content">
+                            <h3>Emergency Contacts</h3>
+                            <p>The red box has important phone numbers. Tap the numbers to call them on your phone.</p>
+                        </div>
+                    </div>
+
+                    <div class="help-step">
+                        <div class="step-icon">👆</div>
+                        <div class="step-content">
+                            <h3>Easy Navigation</h3>
+                            <p>• Tap buttons with your finger<br>
+                            • Everything is large and easy to see<br>
+                            • The app saves your information automatically<br>
+                            • You can always come back to this help by tapping the yellow "How to Use" button</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-footer">
+                    <button class="got-it-button" onclick="hideHelp()">
+                        <span class="got-it-icon">👍</span>
+                        <span>Got It! Take Me Back</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="help-button-container">
+                <button class="help-button" onclick="showHelp()">
+                    <span class="help-icon">❓</span>
+                    <span class="help-text">How to Use This App</span>
+                </button>
+            </div>
+            <div class="greeting" id="greeting"></div>
+            
+            <div class="weather-location-widget">
+                <div class="location-info">
+                    <span class="location-icon">📍</span>
+                    <span class="location-text" id="locationText">Los Angeles, CA</span>
+                </div>
+                <div class="time-display">
+                    <div class="widget-time" id="widgetTime">12:00 PM</div>
+                    <div class="current-date" id="currentDate">Friday, May 24, 2025</div>
+                    <div class="ampm-icon" id="ampmIcon">☀️</div>
+                </div>
+                <div class="weather-info">
+                    <div class="weather-icon" id="weatherIcon">☀️</div>
+                    <div class="weather-details">
+                        <div class="temperature" id="temperature">72°F</div>
+                        <div class="weather-description" id="weatherDescription">Sunny</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="card medication-reminder">
+                <h3><span class="icon">💊</span>Medications</h3>
+                <div class="next-med" id="nextMedText">Next dose:</div>
+                <div class="med-time" id="medTime">8:00 AM</div>
+                <ul class="med-list" id="medList">
+                    <li>
+                        <span class="med-checkbox" onclick="toggleMedication(0)">✓</span>
+                        <span>Blood pressure (Lisinopril 10mg)</span>
+                    </li>
+                    <li>
+                        <span class="med-checkbox" onclick="toggleMedication(1)">✓</span>
+                        <span>Vitamin D (1000 IU)</span>
+                    </li>
+                    <li>
+                        <span class="med-checkbox" onclick="toggleMedication(2)">✓</span>
+                        <span>Calcium (500mg)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card items-tracker">
+                <h3><span class="icon">📍</span>My Items</h3>
+                <ul class="item-list" id="itemList">
+                    <!-- Items will be populated by JavaScript -->
+                </ul>
+                <button class="edit-location" onclick="toggleAddForm()">+ Add Item</button>
+                <div class="add-location-form" id="addLocationForm">
+                    <input type="text" id="newItemName" placeholder="Item name" />
+                    <input type="text" id="newItemLocation" placeholder="Where is it?" />
+                    <button onclick="addNewItem()">Add</button>
+                    <button onclick="toggleAddForm()">Cancel</button>
+                </div>
+            </div>
+
+            <div class="card water-tracker">
+                <h3><span class="icon">💧</span>Daily Water</h3>
+                <div class="water-goal" id="waterGoal">Goal: 8 cups</div>
+                <div class="water-progress-container">
+                    <div class="water-bottle">
+                        <div class="water-level" id="waterLevel"></div>
+                        <div class="water-amount" id="waterAmount">0 / 8</div>
+                    </div>
+                </div>
+                <div class="water-buttons">
+                    <button class="water-btn" id="addOneCup" type="button">
+                        <span class="water-btn-icon">💧</span>
+                        <span>Add 1 Cup</span>
+                    </button>
+                    <button class="water-btn small" id="addHalfCup" type="button">
+                        <span class="water-btn-icon">💧</span>
+                        <span>Add ½ Cup</span>
+                    </button>
+                </div>
+                <div class="water-status" id="waterStatus">Start drinking water!</div>
+                <button class="undo-water" id="undoWaterBtn" type="button" style="display: none;">
+                    <span>↶ Undo Last</span>
+                </button>
+            </div>
+
+            <div class="card voice-controls">
+                <h3><span class="icon">🎤</span>Voice Assistant</h3>
+                <button class="voice-button" id="voiceButton" onclick="toggleListening()">
+                    <span class="voice-icon" id="voiceIcon">💬</span>
+                    <span class="voice-text" id="voiceText">Start Listening</span>
+                </button>
+                <div class="quick-actions">
+                    <button class="quick-action" onclick="askQuestion('What time is it?')">What time is it?</button>
+                    <button class="quick-action" onclick="askQuestion('What\'s the weather?')">What's the weather?</button>
+                    <button class="quick-action" onclick="askQuestion('How much water have I had?')">How much water?</button>
+                    <button class="quick-action" onclick="askQuestion('Where are my glasses?')">Where are my glasses?</button>
+                    <button class="quick-action" onclick="askQuestion('Did I take my medication?')">Did I take my medication?</button>
+                </div>
+                <div class="response-area" id="responseArea">
+                    Hello! I'm here to help you remember things. Try asking me about the time, your medications, or where you put your items.
+                </div>
+            </div>
+
+            <div class="card emergency-info">
+                <h3><span class="icon">🚨</span>Important Contacts</h3>
+                <div class="contact-item">
+                    <div>Sarah (Daughter)</div>
+                    <div class="emergency-number">(555) 123-4567</div>
+                </div>
+                <div class="contact-item">
+                    <div>Dr. Johnson</div>
+                    <div class="emergency-number">(555) 987-6543</div>
+                </div>
+                <div class="contact-item">
+                    <div>Emergency Services</div>
+                    <div class="emergency-number">911</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        let isListening = false;
+        let recognition;
+
+        // Initialize speech recognition if available
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                const command = event.results[0][0].transcript;
+                handleVoiceCommand(command.toLowerCase());
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                stopListening();
+                showResponse('Sorry, I had trouble hearing you. Please try again.');
+            };
+
+            recognition.onend = function() {
+                stopListening();
+            };
+        }
+
+        let helpTimer;
+
+        function showHelp() {
+            document.getElementById('helpOverlay').classList.add('show');
+            
+            // Start a 10-minute timer to auto-close the help page
+            helpTimer = setTimeout(() => {
+                hideHelp();
+                showNotification('Help page closed automatically after 10 minutes');
+            }, 600000); // 10 minutes = 600,000 milliseconds
+        }
+
+        function hideHelp() {
+            document.getElementById('helpOverlay').classList.remove('show');
+            
+            // Clear the timer when help is closed manually
+            if (helpTimer) {
+                clearTimeout(helpTimer);
+                helpTimer = null;
+            }
+        }
+
+        // Weather data and functions
+        let weatherData = {
+            location: 'Los Angeles, CA',
+            temperature: 72,
+            description: 'sunny',
+            icon: '☀️'
+        };
+
+        const weatherIcons = {
+            'clear': '☀️',
+            'sunny': '☀️',
+            'partly cloudy': '⛅',
+            'cloudy': '☁️',
+            'overcast': '☁️',
+            'rain': '🌧️',
+            'light rain': '🌦️',
+            'heavy rain': '⛈️',
+            'thunderstorm': '⛈️',
+            'snow': '❄️',
+            'fog': '🌫️',
+            'mist': '🌫️',
+            'wind': '💨'
+        };
+
+        function updateWeatherDisplay() {
+            document.getElementById('locationText').textContent = weatherData.location;
+            document.getElementById('temperature').textContent = `${weatherData.temperature}°F`;
+            document.getElementById('weatherDescription').textContent = weatherData.description;
+            document.getElementById('weatherIcon').textContent = weatherData.icon;
+        }
+
+        // Simulate weather updates (in real app, this would fetch from weather API)
+        function simulateWeatherUpdate() {
+            const conditions = [
+                { temp: 68, desc: 'partly cloudy', icon: '⛅' },
+                { temp: 75, desc: 'sunny', icon: '☀️' },
+                { temp: 65, desc: 'cloudy', icon: '☁️' },
+                { temp: 70, desc: 'clear', icon: '☀️' }
+            ];
+            
+            const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+            weatherData.temperature = randomCondition.temp;
+            weatherData.description = randomCondition.desc;
+            weatherData.icon = randomCondition.icon;
+            
+            updateWeatherDisplay();
+        }
+        let itemLocations = JSON.parse(localStorage.getItem('itemLocations')) || {
+            'reading glasses': 'kitchen counter',
+            'house keys': 'front door hook',
+            'phone charger': 'bedroom nightstand',
+            'purse': 'living room chair',
+            'wallet': 'bedroom dresser',
+            'tv remote': 'coffee table',
+            'medications': 'bathroom cabinet'
+        };
+
+        let medications = JSON.parse(localStorage.getItem('medications')) || [
+            { name: 'Blood pressure (Lisinopril 10mg)', time: '8:00 AM', taken: false, timeSlot: 'morning' },
+            { name: 'Vitamin D (1000 IU)', time: '8:00 AM', taken: false, timeSlot: 'morning' },
+            { name: 'Calcium (500mg)', time: '8:00 AM', taken: false, timeSlot: 'morning' },
+            { name: 'Blood pressure (Evening)', time: '6:00 PM', taken: false, timeSlot: 'evening' }
+        ];
+
+        function saveData() {
+            localStorage.setItem('itemLocations', JSON.stringify(itemLocations));
+            localStorage.setItem('medications', JSON.stringify(medications));
+            saveWaterData();
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+
+            // Update widget time and date display
+            const widgetTimeString = now.toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                minute: '2-digit',
+                hour12: true 
+            });
+            const hour = now.getHours();
+            const ampmIcon = hour >= 6 && hour < 18 ? '☀️' : '🌙';
+            
+            document.getElementById('widgetTime').textContent = widgetTimeString;
+            document.getElementById('currentDate').textContent = dateString;
+            document.getElementById('ampmIcon').textContent = ampmIcon;
+
+            // Update greeting based on time
+            let greeting;
+            if (hour < 12) {
+                greeting = 'Good morning!';
+            } else if (hour < 17) {
+                greeting = 'Good afternoon!';
+            } else {
+                greeting = 'Good evening!';
+            }
+            document.getElementById('greeting').textContent = greeting;
+
+            updateMedicationStatus();
+        }
+
+        function updateMedicationStatus() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // Determine which medications should be shown
+            let currentMeds;
+            let nextTime;
+            
+            if (currentHour < 12) {
+                currentMeds = medications.filter(med => med.timeSlot === 'morning');
+                nextTime = '8:00 AM';
+            } else {
+                currentMeds = medications.filter(med => med.timeSlot === 'evening');
+                nextTime = '6:00 PM';
+            }
+
+            document.getElementById('medTime').textContent = nextTime;
+            
+            const medList = document.getElementById('medList');
+            medList.innerHTML = '';
+            
+            currentMeds.forEach((med, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="med-checkbox ${med.taken ? 'taken' : ''}" onclick="toggleMedication(${index})">✓</span>
+                    <span>${med.name}</span>
+                `;
+                medList.appendChild(li);
+            });
+        }
+
+        function updateItemList() {
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = '';
+            
+            Object.entries(itemLocations).forEach(([item, location]) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="item-name">${item}</span>
+                    <span class="item-location">${location}</span>
+                `;
+                itemList.appendChild(li);
+            });
+        }
+
+        function toggleMedication(index) {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            let currentMeds = medications.filter(med => 
+                (currentHour < 12 && med.timeSlot === 'morning') || 
+                (currentHour >= 12 && med.timeSlot === 'evening')
+            );
+            
+            if (currentMeds[index]) {
+                currentMeds[index].taken = !currentMeds[index].taken;
+                saveData();
+                updateMedicationStatus();
+                
+                const action = currentMeds[index].taken ? 'marked as taken' : 'unmarked';
+                showNotification(`${currentMeds[index].name} ${action}`);
+            }
+        }
+
+        function toggleAddForm() {
+            const form = document.getElementById('addLocationForm');
+            form.classList.toggle('active');
+        }
+
+        function addNewItem() {
+            const nameInput = document.getElementById('newItemName');
+            const locationInput = document.getElementById('newItemLocation');
+            
+            const name = nameInput.value.trim().toLowerCase();
+            const location = locationInput.value.trim();
+            
+            if (name && location) {
+                itemLocations[name] = location;
+                saveData();
+                updateItemList();
+                nameInput.value = '';
+                locationInput.value = '';
+                toggleAddForm();
+                showNotification(`Added ${name} to your items list`);
+            }
+        }
+
+        function toggleListening() {
+            if (!recognition) {
+                showResponse('Voice recognition is not supported in this browser. Please try using Chrome or Safari.');
+                return;
+            }
+
+            if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            isListening = true;
+            document.getElementById('voiceText').textContent = 'Listening...';
+            document.getElementById('voiceIcon').textContent = '👂';
+            document.getElementById('voiceButton').classList.add('listening');
+            showResponse('I\'m listening... speak now!');
+            recognition.start();
+        }
+
+        function stopListening() {
+            isListening = false;
+            document.getElementById('voiceText').textContent = 'Start Listening';
+            document.getElementById('voiceIcon').textContent = '💬';
+            document.getElementById('voiceButton').classList.remove('listening');
+            if (recognition) {
+                recognition.stop();
+            }
+        }
+
+        function askQuestion(question) {
+            showResponse(`You asked: "${question}"`);
+            setTimeout(() => {
+                handleVoiceCommand(question.toLowerCase());
+            }, 500);
+        }
+
+        async function handleVoiceCommand(command) {
+            // Check if this is a location update command first (handle locally)
+            const locationUpdate = parseLocationUpdate(command);
+            if (locationUpdate.item && locationUpdate.location) {
+                updateItemLocation(locationUpdate.item, locationUpdate.location);
+                const response = `Got it! I've updated that your ${locationUpdate.item} ${locationUpdate.item.endsWith('s') ? 'are' : 'is'} ${locationUpdate.location}.`;
+                showResponse(response);
+                speakResponse(response);
+                return;
+            }
+
+            // For all other commands, send to Claude API
+            showResponse('Let me think about that...');
+            
+            try {
+                // Prepare user data for context
+                const userData = {
+                    location: weatherData.location,
+                    medications: medications,
+                    itemLocations: itemLocations,
+                    waterIntake: waterData.todayIntake,
+                    waterGoal: waterData.dailyGoal,
+                    emergencyContacts: [
+                        { name: 'Sarah (Daughter)', phone: '(555) 123-4567' },
+                        { name: 'Dr. Johnson', phone: '(555) 987-6543' }
+                    ]
+                };
+
+                // Call your backend API
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: command,
+                        userData: userData
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.fallback || 'Failed to get response');
+                }
+
+                const data = await response.json();
+                showResponse(data.response);
+                speakResponse(data.response);
+
+            } catch (error) {
+                console.error('API Error:', error);
+                
+                // Fallback to local responses if API fails
+                const fallbackResponse = getFallbackResponse(command);
+                showResponse(fallbackResponse);
+                speakResponse(fallbackResponse);
+            }
+        }
+
+        function getFallbackResponse(command) {
+            // Simple fallback responses when API is unavailable
+            if (command.includes('time')) {
+                const now = new Date();
+                return `It's ${now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}.`;
+            } else if (command.includes('date') || command.includes('today')) {
+                const now = new Date();
+                return `Today is ${now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}.`;
+            } else if (command.includes('water')) {
+                return `You've had ${waterData.todayIntake} cups of water today.`;
+            } else {
+                return "I'm having trouble connecting right now, but I'm still here to help with basic functions. Try asking about the time or check your medication tracker.";
+            }
+        }
+
+        function speakResponse(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function parseLocationUpdate(command) {
+            // Common items to look for
+            const knownItems = Object.keys(itemLocations);
+            const commonItems = ['keys', 'glasses', 'phone', 'purse', 'wallet', 'charger', 'remote', 'medication', 'pills'];
+            const allItems = [...new Set([...knownItems, ...commonItems])];
+            
+            // Patterns to match location updates
+            const patterns = [
+                /(?:i put|i left|i placed)\s+(?:my\s+)?(\w+(?:\s+\w+)?)\s+(?:on|in|at|by|near|under|over)\s+(?:the\s+)?(.+)/i,
+                /(?:my\s+)?(\w+(?:\s+\w+)?)\s+(?:is|are)\s+(?:on|in|at|by|near|under|over)\s+(?:the\s+)?(.+)/i,
+                /(\w+(?:\s+\w+)?)\s+(?:is|are)\s+(?:on|in|at|by|near|under|over)\s+(?:the\s+)?(.+)/i
+            ];
+            
+            for (const pattern of patterns) {
+                const match = command.match(pattern);
+                if (match) {
+                    const potentialItem = match[1].toLowerCase().trim();
+                    const location = match[2].toLowerCase().trim();
+                    
+                    // Check if the potential item matches any known items
+                    let matchedItem = null;
+                    
+                    // Direct match
+                    if (allItems.includes(potentialItem)) {
+                        matchedItem = potentialItem;
+                    } else {
+                        // Partial match (e.g., "house keys" matches "keys")
+                        for (const item of allItems) {
+                            if (potentialItem.includes(item) || item.includes(potentialItem)) {
+                                matchedItem = item;
+                                break;
+                            }
+                        }
+                        
+                        // Handle common variations
+                        if (potentialItem.includes('glass')) matchedItem = 'reading glasses';
+                        if (potentialItem.includes('key')) matchedItem = 'house keys';
+                        if (potentialItem.includes('phone')) matchedItem = 'phone charger';
+                        if (potentialItem.includes('tv') || potentialItem.includes('remote')) matchedItem = 'tv remote';
+                    }
+                    
+                    if (matchedItem) {
+                        return {
+                            item: matchedItem,
+                            location: location.replace(/^(the|a|an)\s+/, '') // Remove articles
+                        };
+                    }
+                }
+            }
+            
+            return { item: null, location: null };
+        }
+
+        function updateItemLocation(item, location) {
+            // Add "on the" or "in the" prefix if not already there
+            let formattedLocation = location;
+            if (!location.match(/^(on|in|at|by|near|under|over)\s/)) {
+                // Guess the appropriate preposition
+                if (location.includes('table') || location.includes('counter') || location.includes('desk') || 
+                    location.includes('shelf') || location.includes('bed') || location.includes('chair')) {
+                    formattedLocation = 'on the ' + location;
+                } else if (location.includes('drawer') || location.includes('cabinet') || location.includes('room') || 
+                          location.includes('car') || location.includes('bag') || location.includes('purse')) {
+                    formattedLocation = 'in the ' + location;
+                } else {
+                    formattedLocation = 'on the ' + location;
+                }
+            }
+            
+            itemLocations[item] = formattedLocation;
+            saveData();
+            updateItemList();
+            showNotification(`Updated location: ${item} → ${formattedLocation}`);
+        }
+
+        function showResponse(text) {
+            document.getElementById('responseArea').textContent = text;
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize the application
+        function initApp() {
+            updateDateTime();
+            updateItemList();
+            updateMedicationStatus();
+            updateWeatherDisplay();
+            updateWaterDisplay();
+            setupWaterButtons(); // Add this line
+            
+            // Check for medication reminders every minute
+            setInterval(() => {
+                checkMedicationReminders();
+                updateDateTime();
+            }, 60000);
+            
+            // Update weather every 30 minutes (in real app, this would fetch from API)
+            setInterval(() => {
+                simulateWeatherUpdate();
+            }, 1800000);
+            
+            // Request notification permission
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        }
+
+        function checkMedicationReminders() {
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+            
+            // Check if it's medication time
+            if (currentTime === '8:00 AM' || currentTime === '6:00 PM') {
+                const timeSlot = currentTime === '8:00 AM' ? 'morning' : 'evening';
+                const currentMeds = medications.filter(med => med.timeSlot === timeSlot && !med.taken);
+                
+                if (currentMeds.length > 0) {
+                    showNotification('Time to take your medication!');
+                    
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('Medication Reminder', {
+                            body: 'Time to take your medication!',
+                            icon: '💊'
+                        });
+                    }
+                }
+            }
+        }
+
+        // Start the application
+        initApp();
+    </script>
+</body>
+</html>
